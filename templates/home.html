@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+
+{% block title %}
+Home - FoodExpress
+{% endblock %}
+
+{% block content %}
+
+<div class="card">
+
+    <h1>🍔 Welcome to FoodExpress</h1>
+
+    {% if user.is_authenticated %}
+
+        <h2>Welcome, {{ user.username }}!</h2>
+
+        <p>
+            Order delicious food from your favorite restaurants.
+        </p>
+
+        <br>
+
+        <a class="btn" href="{% url 'restaurant_list' %}">
+            🍽️ Browse Restaurants
+        </a>
+
+        <a class="btn" href="{% url 'my_orders' %}">
+            📋 My Orders
+        </a>
+
+    {% else %}
+
+        <h2>Delicious food, delivered to you!</h2>
+
+        <p>
+            Login or create an account to start ordering.
+        </p>
+
+        <br>
+
+        <a class="btn" href="{% url 'login' %}">
+            Login
+        </a>
+
+        <a class="btn" href="{% url 'register' %}">
+            Create Account
+        </a>
+
+    {% endif %}
+
+</div>
+
+{% endblock %}

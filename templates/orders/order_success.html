@@ -1,0 +1,105 @@
+{% extends "base.html" %}
+
+{% block title %}Order Successful - FoodExpress{% endblock %}
+
+{% block content %}
+
+<h1>✅ Order Placed Successfully!</h1>
+
+<p>
+    Thank you for your order, <strong>{{ order.user.username }}</strong>.
+</p>
+
+<h2>Order #{{ order.id }}</h2>
+
+<p>
+    <strong>Total:</strong> ₹{{ order.total_amount }}
+</p>
+
+<p>
+    <strong>Status:</strong>
+    {{ order.get_status_display }}
+</p>
+
+<hr>
+
+<h2>📦 Order Items</h2>
+
+{% for item in items %}
+
+    <div>
+        <h3>{{ item.food.name }}</h3>
+
+        <p>
+            Quantity: {{ item.quantity }}
+        </p>
+
+        <p>
+            Price: ₹{{ item.price }}
+        </p>
+
+        <p>
+            Subtotal: ₹{{ item.get_total }}
+        </p>
+    </div>
+
+    <hr>
+
+{% endfor %}
+
+<div class="order-tracking">
+
+    <h2>📦 Order Tracking</h2>
+
+    <div class="tracking-status">
+        <strong>{{ order.get_status_display }}</strong>
+    </div>
+
+    <div class="tracking-steps">
+
+        <div class="tracking-step {% if order.status != 'pending' %}active{% endif %}">
+            <span>1</span>
+            <p>Order Placed</p>
+        </div>
+
+        <div class="tracking-step {% if order.status == 'confirmed' or order.status == 'preparing' or order.status == 'out_for_delivery' or order.status == 'delivered' %}active{% endif %}">
+            <span>2</span>
+            <p>Confirmed</p>
+        </div>
+
+        <div class="tracking-step {% if order.status == 'preparing' or order.status == 'out_for_delivery' or order.status == 'delivered' %}active{% endif %}">
+            <span>3</span>
+            <p>Preparing</p>
+        </div>
+
+        <div class="tracking-step {% if order.status == 'out_for_delivery' or order.status == 'delivered' %}active{% endif %}">
+            <span>4</span>
+            <p>Out for Delivery</p>
+        </div>
+
+        <div class="tracking-step {% if order.status == 'delivered' %}active{% endif %}">
+            <span>5</span>
+            <p>Delivered</p>
+        </div>
+
+    </div>
+
+</div>
+
+<p class="order-message">
+    Your order has been received and is being processed.
+</p>
+
+<br>
+
+<a href="{% url 'my_orders' %}">
+    📋 View My Orders
+</a>
+
+<br><br>
+
+<a href="{% url 'restaurant_list' %}">
+    🍔 Continue Shopping
+</a>
+
+{% endblock %}

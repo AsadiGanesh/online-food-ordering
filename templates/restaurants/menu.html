@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+
+{% block title %}{{ restaurant.name }} - FoodExpress{% endblock %}
+
+{% block content %}
+
+<div class="page-header">
+    <h1>🍔 {{ restaurant.name }}</h1>
+    <p>{{ restaurant.description }}</p>
+    <p>📍 {{ restaurant.address }}</p>
+</div>
+
+{% for category in categories %}
+
+    <section class="menu-section">
+
+        <h2>🍽️ {{ category.name }}</h2>
+
+        <div class="food-grid">
+
+            {% for food in foods %}
+
+                {% if food.category.id == category.id %}
+
+                    <div class="food-card">
+
+                        <h3>{{ food.name }}</h3>
+
+                        <p>{{ food.description }}</p>
+
+                        <div class="food-bottom">
+
+                            <strong>₹{{ food.price }}</strong>
+
+                            <a
+                                href="{% url 'add_to_cart' food.id %}"
+                                class="btn"
+                            >
+                                🛒 Add to Cart
+                            </a>
+
+                        </div>
+
+                    </div>
+
+                {% endif %}
+
+            {% endfor %}
+
+        </div>
+
+    </section>
+
+{% endfor %}
+
+<br>
+
+<a href="{% url 'restaurant_list' %}" class="btn">
+    ← Back to Restaurants
+</a>
+
+{% endblock %}

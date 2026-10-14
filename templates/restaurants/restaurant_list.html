@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+
+{% block title %}Restaurants - FoodExpress{% endblock %}
+
+{% block content %}
+
+<div class="page-header">
+    <h1>🍽️ Our Restaurants</h1>
+
+    {% if user.is_authenticated %}
+        <p>Welcome, <strong>{{ user.username }}</strong>!</p>
+    {% endif %}
+
+    <p>Choose a restaurant and explore its delicious menu.</p>
+</div>
+
+<div class="restaurant-grid">
+
+    {% for restaurant in restaurants %}
+
+        <div class="restaurant-card">
+
+            <h2>🍴 {{ restaurant.name }}</h2>
+
+            <p>{{ restaurant.description }}</p>
+
+            <p>📍 <strong>Location:</strong> {{ restaurant.address }}</p>
+
+            <p>📞 <strong>Phone:</strong> {{ restaurant.phone }}</p>
+
+            <a
+                href="{% url 'restaurant_menu' restaurant.id %}"
+                class="btn"
+            >
+                🍽️ View Menu
+            </a>
+
+        </div>
+
+    {% empty %}
+
+        <div class="empty-state">
+            <h2>No restaurants available</h2>
+            <p>Please check back later.</p>
+        </div>
+
+    {% endfor %}
+
+</div>
+
+{% endblock %}

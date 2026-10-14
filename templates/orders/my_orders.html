@@ -1,0 +1,66 @@
+{% extends "base.html" %}
+
+{% block title %}My Orders - FoodExpress{% endblock %}
+
+{% block content %}
+
+<div class="page-header">
+    <h1>📋 My Orders</h1>
+    <p>Welcome, <strong>{{ user.username }}</strong>!</p>
+</div>
+
+{% if orders %}
+
+    <div class="orders-list">
+
+        {% for order in orders %}
+
+            <div class="order-card">
+
+                <div class="order-header">
+                    <h2>Order #{{ order.id }}</h2>
+
+                    <span class="order-status">
+                        {{ order.get_status_display }}
+                    </span>
+                </div>
+
+                <p>
+                    📅
+                    {{ order.created_at|date:"d M Y, h:i A" }}
+                </p>
+
+                <h3>
+                    Total: ₹{{ order.total_amount }}
+                </h3>
+
+                <a
+                    href="{% url 'order_success' order.id %}"
+                    class="btn"
+                >
+                    👁️ View Order
+                </a>
+
+            </div>
+
+        {% endfor %}
+
+    </div>
+
+{% else %}
+
+    <div class="empty-state">
+
+        <h2>📋 No Orders Yet</h2>
+
+        <p>You have not placed any orders yet.</p>
+
+        <a href="{% url 'restaurant_list' %}" class="btn">
+            🍔 Start Shopping
+        </a>
+
+    </div>
+
+{% endif %}
+
+{% endblock %}
